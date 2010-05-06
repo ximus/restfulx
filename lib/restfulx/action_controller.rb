@@ -13,7 +13,8 @@ module RestfulX
         unless String === object
           object = object.to_amf(options, &block) if object.respond_to?(:to_amf)
         end
-        render_without_amf(:text => object, :content_type => RestfulX::Types::APPLICATION_AMF)
+        response.content_type ||= RestfulX::Types::APPLICATION_AMF
+        render_for_text(object)        
       else
         render_without_amf(options, extra_options, &block)
       end
@@ -25,7 +26,8 @@ module RestfulX
         unless String === object
           object = object.to_fxml(options, &block) if object.respond_to?(:to_fxml)
         end
-        render_without_fxml(:text => object, :content_type => RestfulX::Types::APPLICATION_FXML)
+        response.content_type ||= RestfulX::Types::APPLICATION_FXML
+        render_for_text(object)
       else
         render_without_fxml(options, extra_options, &block)
       end
